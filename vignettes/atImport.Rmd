@@ -1,0 +1,47 @@
+---
+title: "atImport"
+author: "Andrew Taylor"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{atImport}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Importing Packages
+
+`getPackages()` provides a method for checking, installing, and loading a list of package names. Specifically this function will:
+
+- Check whether each function in the list has already been installed.
+- For those that have not been installed, install them via `install.packages()`.
+- Load each package via `library()`
+
+Usage: `getPackages("ggplot2", "ggvis", "ggmaps")`
+
+
+
+`install.packagesArchive()` provides a wrapper for installing packages found on the CRAN archive.
+
+Usage: `install.packagesArchive(package = "mixlow", version = "2.0.1")`
+
+
+
+## Importing Data
+
+`read_workbook()` is a wrapper for `readxl::read_excel()`, in which all sheets of a workbook are read into R, with each sheet taking on the name provided in excel. Sheets are either individually added to the global environment as `data.frame`s via `add_to_Envir=TRUE`, and/or appended together as a list of `data.frame`s and returned via `output_ls=TRUE`.
+
+Usage: `read_workbook(C:/User/Me/MyWorkbook.xls)`
+
+
+
+`getVarLabelTable()` pulls in variable label data for data imported using either the `foreign` or `Hmisc` packages. A data.frame containing the variable names in the first column and variable labels in the second column is returned.
+
+Usage: `getVarLabelTable(importedDataObject)`
+
+## Importing .R files
+
+`sourceDir()` iterates through all `.R` files found in a given directory and sources them via `source()`.
+
+Usage: `sourceDir("C:/User/Me/AllMyRFiles/")`
+
