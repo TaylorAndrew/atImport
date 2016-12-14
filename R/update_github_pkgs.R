@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' update_github_pkgs()
-update_github_pkgs <- function() {
+update_github_pkgs <- function(pkgList = NULL) {
 
   # check/load necessary packages
   # devtools package
@@ -19,7 +19,21 @@ update_github_pkgs <- function() {
   pkgs <- installed.packages(fields = "RemoteType")
   github_pkgs <- pkgs[pkgs[, "RemoteType"] %in% "github", "Package"]
 
-  print(github_pkgs)
+  if(!is.null(pkgList)) {
+    githubPackagesInstalled <- pkgList[pkgList%in%github_pkgs]
+    githubPackagesNotInstalled <- pkgList[!pkgList%in%github_pkgs]
+    if(length(githubPackagesInstalled)>0) {
+    print(paste0('The following package was detected and will be updated: ',
+                 githubPackagesInstalled))
+    github_pkgs <- githubPackagesInstalled
+    }
+    if(length(githubPackagesNotInstalled)>0) {
+    print(paste0('The following package was NOT detected and will NOT be updated: ',
+                 githubPackagesNotInstalled))
+    }
+  }
+
+  # print(github_pkgs)
   lapply(github_pkgs, function(pac) {
     message("Updating ", pac, " from GitHub...")
 
