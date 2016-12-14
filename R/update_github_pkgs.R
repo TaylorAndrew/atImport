@@ -30,16 +30,19 @@ update_github_pkgs <- function(pkgList = NULL) {
     if(length(githubPackagesNotInstalled)>0) {
     print(paste0('The following package was NOT detected and will NOT be updated: ',
                  githubPackagesNotInstalled))
+    github_pkgs <- NULL
     }
   }
 
   # print(github_pkgs)
-  lapply(github_pkgs, function(pac) {
+  if(!is.null(github_pkgs)) {
+    lapply(github_pkgs, function(pac) {
     message("Updating ", pac, " from GitHub...")
 
     repo = packageDescription(pac, fields = "GithubRepo")
     username = packageDescription(pac, fields = "GithubUsername")
 
     install_github(repo = paste0(username, "/", repo))
-  })
+    })
+  }
 }
